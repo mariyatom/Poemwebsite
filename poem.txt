@@ -2,5 +2,4 @@ github pages
 
 is a hug
 
-haaaaa
-red
+haaaaaa
