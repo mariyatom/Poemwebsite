@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Cloning Elements</title>
+
+  <style>
+    body {
+      background-color: #60543A;
+      padding: 30px;
+    }
+    h1 {
+      color: #F2D492;
+      font-size: 72px;
+      font-family: sans-serif;
+      text-decoration: underline;
+    }
+    p {
+      color: #F2D492;
+      font-family: sans-serif;
+      font-size: 36px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Am I real?</h1>
+  <p class="message">I exist entirely in your imagination.</p>
+
+  <script>
+    let bodyElement = document.querySelector("body");
+    let textElement = document.querySelector(".message");
+    
+    setInterval(sayWhat, 1000);
+
+    function sayWhat() {
+      let clonedText = textElement.cloneNode(true);
+      bodyElement.appendChild(clonedText);
+    }
+  </script>
+</body>
+
+</html>
