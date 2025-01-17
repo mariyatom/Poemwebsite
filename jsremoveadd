@@ -18,6 +18,13 @@ removeChild.addEventListener("click", () => {
   const child = document.body.querySelector(".child");
   parent.removeChild(child);
 });
+--------------------------
+<div class="container">
+  <div class="parent">parent</div>
+  <button id="add-child" type="button">Add a child</button>
+  <button id="remove-child" type="button">Remove child</button>
+</div>
+
 -----------------
   .container {
   display: flex;
