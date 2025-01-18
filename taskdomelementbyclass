@@ -1,0 +1,95 @@
+// Don't change or delete this line! It waits until the DOM has loaded, then calls
+// the start function. More info:
+// https://developer.mozilla.org/en-US/docs/Web/Events/DOMContentLoaded
+document.addEventListener('DOMContentLoaded', start)
+
+function start() {
+  // The first example is done for you. Uncomment the line below and reload the browser.
+  one()
+  // Your turn! Create a new function named `two` below, then call it from here.
+  two()
+  three()
+  makeVisible()
+}
+
+function one() {
+  // First, we have to find the element:
+  let one = document.getElementById('one')
+
+  // Next, we apply a new CSS class to it:
+  one.classList.add('blue')
+}
+
+// CREATE FUNCTION two HERE
+function two() {
+  let two = document.getElementById('two')
+  two.classList.add('green')
+}
+
+// CREATE FUNCTION three HERE
+function three() {
+  let three = document.getElementById('three')
+  three.classList.add('yellow')
+}
+
+// CREATE FUNCTION makeVisible HERE
+function makeVisible() {
+  let firstInvisibleByClass = document.getElementsByClassName('invisible')[0]
+  firstInvisibleByClass.classList.add('visible')
+}
+--------------------------------
+<!DOCTYPE html>
+<head>
+  <title>DOM: Applying Classes</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="classes.js"></script>
+</head>
+<body>
+  <div id="one"></div>
+  <div id="two"></div>
+  <div id="three"></div>
+  <div class="invisible"></div>
+</body>
+</html>
+--------------------------------
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+div {
+  width: 100px;
+  height: 100px;
+  border: 1px #ccc dotted;
+  margin: 10px;
+  border-radius: 50%;
+  background-color: #eee;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.invisible {
+  display: none;
+}
+
+.visible {
+  display: block;
+  border: 3px black dashed;
+  border-radius: 0;
+  background-color: white;
+}
+
+.green {
+  background-color: green;
+}
+.yellow {
+  background-color: yellow;
+}
