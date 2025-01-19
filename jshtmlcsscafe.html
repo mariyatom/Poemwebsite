@@ -1,0 +1,247 @@
+// -- JAVASCRIPT CAFE! -- //
+//    PRODUCTS  //
+
+let products = {
+  whiteCoffee: {
+    stock: 4,
+    price: 4,
+  },
+  blackCoffee: {
+    stock: 7,
+    price: 3.5,
+  },
+  sandwich: {
+    stock: 9,
+    price: 8,
+  },
+  muffin: {
+    stock: 5,
+    price: 8.5,
+  },
+  eggs: {
+    stock: 1,
+    price: 12.5,
+  },
+}
+
+function displayProducts() {
+  document.getElementById('whiteCoffee').innerHTML =
+    'White coffee:' + products.whiteCoffee.stock
+  document.getElementById('blackCoffee').innerHTML =
+    'Black coffee:' + products.blackCoffee.stock
+  document.getElementById('sandwich').innerHTML =
+    'sandwich:' + products.sandwich.stock
+  document.getElementById('muffin').innerHTML =
+    'Muffin:' + products.muffin.stock
+  document.getElementById('eggs').innerHTML = 'Eggs:' + products.eggs.stock
+  for (let productName in products) {
+    let product = products[productName]
+    let productElement = document.getElementById(productName)
+    productElement.style.color = product.stock > 0 ? 'black' : 'red'
+  }
+}
+displayProducts()
+
+// CUSTOMERS
+
+let customer = {
+  order: [],
+  money: 0,
+}
+let minOrderSize = 1
+let maxOrderSize = 6
+let cash = 0
+let minCustomerMoney = 2
+let maxCustomerMoney = 25
+
+// DECLARING FUNCTIONS FOR CUSTOMER ORDERS //
+function generateCustomerOrder() {
+  // get a random size for the order in a range, 1-5
+  //make a new array of the things they are ordering
+  //assign the new order to the customer object.
+  //displays the customer order
+
+  let orderSize = getRandomInt(minOrderSize, maxOrderSize)
+  let newOrder = []
+  cash = 0
+  displayCash()
+
+  customer.money = getRandomInt(minCustomerMoney, maxCustomerMoney)
+  displayCustomerMoney()
+
+  let productNames = Object.keys(products)
+
+  for (let i = 0; i < orderSize; i++) {
+    let productIndex = getRandomInt(0, productNames.length - 1)
+    let productName = productNames[productIndex]
+    newOrder.push(productName)
+  }
+  customer.order = newOrder
+  displayCustomerOrder()
+}
+
+function displayCustomerMoney() {
+  document.getElementById('customerMoney').innerHTML =
+    'Customer Money: $' + customer.money.toFixed(2)
+}
+
+//displays the customer order
+function displayCustomerOrder() {
+  document.getElementById('customerOrder').innerHTML =
+    'Customer Order :' + customer.order.join(', ')
+}
+
+document.getElementById('customerButton').onclick = generateCustomerOrder
+
+// Transactions
+
+function displayCash() {
+  document.getElementById('cash').innerHTML = 'Cash: $' + cash.toFixed(2)
+}
+displayCash()
+// make a variable to keep track of our sale total
+// loop through the customer order array
+// if we have there product in stock, sell it to them and keep track of the sale
+// if we dont have it, alert we 're out of this product
+// add the sale total to our cash
+// display the new totals
+// we are going to clear the customer order
+function fillOrder() {
+  let saleTotal = 0
+  let unavailableProducts = []
+
+  // Calculate total cost of the order
+  for (let i = 0; i < customer.order.length; i++) {
+    let productName = customer.order[i]
+    if (products[productName] && products[productName].stock > 0) {
+      saleTotal += products[productName].price
+    } else {
+      unavailableProducts.push(productName)
+    }
+  }
+
+  // Check if the customer has enough money
+  if (saleTotal > customer.money) {
+    alert("Customer doesn't have enough money for this order.")
+    return
+  }
+
+  // Process the order if all conditions are met
+  for (let i = 0; i < customer.order.length; i++) {
+    let productName = customer.order[i]
+    if (products[productName] && products[productName].stock > 0) {
+      products[productName].stock--
+    } else {
+      alert("I'm sorry, we are out of " + productName)
+      document.getElementById(productName).style.color = 'red'
+    }
+  }
+
+  cash += saleTotal
+  customer.money -= saleTotal
+  customer.order = []
+  displayProducts()
+  displayCash()
+  displayCustomerMoney()
+  displayCustomerOrder()
+}
+
+document.getElementById('fillOrder').onclick = fillOrder
+function getRandomInt(min, max) {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+-------------------------
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>JavaScript Cafe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap"
+      rel="stylesheet"
+    />
+    <link href="main.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <h1>JavaScript Café</h1>
+    <div class="container">
+      <p id="whiteCoffee"></p>
+      <p id="blackCoffee"></p>
+      <p id="sandwich"></p>
+      <p id="muffin"></p>
+      <p id="eggs"></p>
+      <p id="cash"></p>
+      <p id="customerMoney">Customer Money: $0.00</p>
+
+      <p id="customerOrder">customer order:</p>
+    </div>
+    <button class="button" id="customerButton">generate customer</button>
+    <button class="button" id="fillOrder">fill order</button>
+    <script src="cafe.js"></script>
+  </body>
+</html>
+--------------
+/* // -- JAVASCRIPT CAFE CSS -- // */
+
+body {
+	background: white;
+	background-image: linear-gradient(90deg, rgba(208,232,234,.5) 50%, transparent 0), linear-gradient(rgba(208,232,234,.5) 50%, transparent 0);
+	background-size: 100px 100px;
+	font-family: 'Fira Code', monospace;
+	text-align: center;
+}
+
+p {
+	font-size: 2vw;
+	font-weight: 400;
+}
+
+h1 {
+	font-size: 4vw;
+	font-weight: 700;
+}
+
+.container {
+	background-color: rgba(255, 255, 255, 0.65);
+	border: 3px solid black;
+	border-radius: 3px;
+	width: 60%;
+	height: auto;
+	padding: 0px 50px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 20px;
+	backdrop-filter: blur(11.7px);
+	-webkit-backdrop-filter: blur(11.7px);
+}
+
+.button {
+	font-family: 'Fira Code', monospace;
+	font-size: 1.5vw;
+	font-weight: 500;
+	display: inline-block;
+	outline: 0;
+	cursor: pointer;
+	border: 3px solid black;
+	border-radius: 3px;
+	color: white;
+	background: black;
+	padding: 12px 20px;
+	text-align: center;
+	transition-duration: .15s;
+	transition-property: all;
+	transition-timing-function: cubic-bezier(.4,0,.2,1);
+	margin: 0px 15px 15px 15px;
+}
+
+button:hover {
+	color: black;
+	background-color: rgba(255, 255, 255, 0.65);
+	backdrop-filter: blur(11.7px);
+	-webkit-backdrop-filter: blur(11.7px);
+}
